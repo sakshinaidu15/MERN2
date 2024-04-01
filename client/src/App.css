@@ -1,0 +1,109 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+.list-container {
+    height: 100vh;
+    width: 15%;
+    background-color: #191919;
+    text-align: center;
+    position: fixed;
+    
+}
+.list-container .list-item {
+    padding-top: 50px;
+    color: lightgray;
+    list-style-type: none;
+    font-size: 18px;
+    font-weight: 500;
+}
+.list-container .list-item a {
+    color: lightgray;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: 500;
+}
+.list-container .list-item .active {
+    color: greenyellow;
+}
+.student-table {
+    position: relative;
+    left: 30%;
+    border-collapse: collapse;
+    width: 50%;
+  
+    
+}
+.student-table th, 
+.student-table td {
+    border-bottom: 1px solid black;
+    padding: 10px;
+    text-align: center;
+}
+
+.student-table .btn-edit {
+    color: white;
+    background-color: #0080ff;
+    border: none;
+    padding: 6px 14px 6px 14px;
+    font-size: 15px;
+    cursor: pointer;
+}
+.student-table .btn-delete {
+    color: white;
+    background-color: red;
+    border: none;
+    padding: 6px 14px 6px 14px;
+    font-size: 15px;
+    cursor: pointer;
+}
+.modal .btn-update {
+    color: white;
+    background-color: #0080ff;
+    border: none;
+    border-radius: 0;
+    padding: 6px 14px 6px 14px;
+    font-size: 15px;
+    cursor: pointer;
+
+}
+.modal .btn-cancel {
+    color: white;
+    background-color: red;
+    border: none;
+    border-radius: 0;
+    padding: 6px 14px 6px 14px;
+    font-size: 15px;
+    cursor: pointer;
+
+}
+.add-service {
+    position: relative;
+    left: 30%;
+    width: 50%;
+    top: 50px;
+}
+.dropdown-menu.show {
+    border: none;
+    background-color: #191919;
+    text-align: center;
+    
+}
+.dropdown-menu.show a {
+    text-decoration: none;
+    color: lightgray;
+}
+.service-table {
+    position: relative;
+    left: 30%;
+    width: 50%;
+}
+.service-table .btn-delete {
+    color: white;
+    background-color: red;
+    border: none;
+    padding: 6px 14px 6px 14px;
+    font-size: 15px;
+    cursor: pointer;
+
+}
