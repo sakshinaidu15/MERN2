@@ -64,14 +64,19 @@ const getSingleStudent = async (req, res) => {
 const updateStudentById = async (req, res) => {
     try {
         const id = req.params.id
+        const { name, email, contact } = req.body
         const data = req.body
+        if (!name || !email || !contact) {
+            res.status(400).json({ msg: 'All fields are required' })
+        }
+        else {
+            await student.updateOne({ _id: id }, { $set: data })
+            res.status(200).json({ msg: 'Data updated' })
 
-        const updateStudent = await student.updateOne({ _id: id }, { $set: data })
-        res.status(200).json(updateStudent)
+        }
     }
     catch (error) {
         res.status(500).json({ msg: 'Internal server error' })
-
     }
 
 

@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import './../App.css'
 import './../../node_modules/bootstrap/dist/css/bootstrap.css'
 import './../../node_modules/bootstrap/dist/js/bootstrap.js'
-import {Link} from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
+import { AuthContext } from '../store/auth.js'
 
 const AdminStudents = () => {
 
@@ -12,9 +13,16 @@ const AdminStudents = () => {
     const [email, setEmail] = useState("")
     const [contact, setContact] = useState("")
 
+    const {authorizationToken} = useContext(AuthContext)
+
     const getData = async () => {
         try {
-            const data = await fetch('http://localhost:5000/api/admin/students')
+            const data = await fetch('http://localhost:5000/api/admin/students', {
+                headers: {
+                    authorization:authorizationToken
+                }
+
+            })
             const res = await data.json()
             console.log(res)
             setStudents(res)
@@ -33,6 +41,7 @@ const AdminStudents = () => {
             const data = await fetch(`http://localhost:5000/api/admin/students/${id}`)
             const res = await data.json()
             console.log(res)
+            setId(res._id)
             setName(res.name)
             setEmail(res.email)
             setContact(res.contact)
@@ -45,8 +54,35 @@ const AdminStudents = () => {
         }
     }
 
-   
+    const editData = async () => {
+        try {
+            const data = await fetch(`http://localhost:5000/api/admin/students/update/${id}`, {
+                method: "PUT",
+                body: JSON.stringify({
+                    name,
+                    email,
+                    contact
+                }),
+                headers: {
+                    'Content-Type':'application/json',
+                    'Accept':'application/json'
+                }
+            })
+            const res = await data.json()
+            console.log(res)
+            if(res.msg === 'Data updated') {
+                getData()
+            }
+            
 
+        }
+        catch (error) {
+            console.log(error)
+
+        }
+
+    }
+    
     const deleteData = async () => {
         try {
             const data = await fetch(`http://localhost:5000/api/admin/students/delete/${id}`, {
@@ -85,7 +121,7 @@ const AdminStudents = () => {
                                 <td>{value.name}</td>
                                 <td>{value.email}</td>
                                 <td>{value.contact}</td>
-                                <td><button className='btn-edit' data-bs-toggle="modal" data-bs-target="#edit" onClick={() => getSingleData(value._id)}>Edit</button> | <Link to={`${id}`}><button className='btn-delete' data-bs-toggle="modal" data-bs-target="#delete" onClick={() => setId(value._id)}>Delete</button></Link></td>
+                                <td><NavLink to='/admin/students/edit'><button className='btn-edit' data-bs-toggle="modal" data-bs-target="#edit" onClick={() => getSingleData(value._id)}>Edit</button></NavLink> | <button className='btn-delete' data-bs-toggle="modal" data-bs-target="#delete" onClick={() => setId(value._id)}>Delete</button></td>
                             </tr>
                         </tbody>
 
@@ -113,7 +149,7 @@ const AdminStudents = () => {
 
 
                         <div className="modal-footer">
-                            <button type='button' className='btn btn-update'>Update</button>
+                            <button type='button' className='btn btn-update' data-bs-dismiss="modal" onClick={editData}>Update</button>
                             <button type="button" className='btn btn-cancel' data-bs-dismiss="modal">Cancel</button>
                         </div>
 

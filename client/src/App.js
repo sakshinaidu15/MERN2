@@ -27,6 +27,8 @@ function App() {
           <Route path='/register' element={<Signup />}></Route>
           <Route path='/admin' element={<AdminPage />}>
             <Route path='students' element={<AdminStudents />}></Route>
+            <Route path='students/edit' element={<AdminStudents />}></Route>
+            <Route path='students/delete' element={<AdminStudents />}></Route>
             <Route path='contacts' element={<AdminContacts />}></Route>
             <Route path='service' element={<AdminServices />}></Route>
             <Route path='service/delete' element={<AdminDeleteServices />}></Route>

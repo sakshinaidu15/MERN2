@@ -1,34 +1,46 @@
 const jwt = require('jsonwebtoken')
 const student = require('../models/studentSchema')
 
-const authMiddleware = async (req, res, next) => {
+const verifyToken = async (req, res, next) => {
+    // console.log(req.headers)
 
-    const token = req.header("Authorization")
-    if(!token) {
-        res.status(400).json({msg: 'Unauthorized HTTP, token not provided'})
-    }
+    let token = req.headers['authorization'];
+
     console.log(token)
+
+    if (!token) {
+        return res.status(400).json({ msg: 'A token is required for authentication' })
+    }
    
-    //Removing the 'Bearer' prefix
-    const jwtToken = token.replace('Bearer', '').trim()
-    console.log('token from auth middleware', jwtToken)
 
     try {
-        const isVerified = jwt.verify(jwtToken, process.env.JWT_SECRET_KEY)
- 
-        const studentData = await student.findOne({_id: isVerified._id})
-        // console.log(studentData)
-        req.student = studentData
-        next()
+        // If token is present, try to remove 'Bearer ' prefix (common practice)
+        if (token.startsWith('Bearer ')) {
+            // Remove Bearer from string
+            token = token.slice(7, token.length);
+            console.log(token)
+            
+        }
+        
 
-    }
+        // Verify the token
+        const isVerified = jwt.verify(token, process.env.JWT_SECRET_KEY)
+        const data = await student.findOne({_id: isVerified.id})
+
+
+        // Attach the decoded user to the request object
+        req.user = data
+
+        // Proceed to the next middleware/function
+        next();
+    } 
     catch (error) {
-        res.status(500).json({msg: 'Invalid token'})
-
+        res.status(400).json({ msg: 'Invalid Token' })
     }
-    
-    
-
 }
 
-module.exports = authMiddleware
+
+
+
+
+module.exports = verifyToken

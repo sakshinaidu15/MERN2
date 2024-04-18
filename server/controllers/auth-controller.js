@@ -66,7 +66,7 @@ const login = async (req, res) => {
             if (userExist) {
                 const isMatch = await bcrypt.compare(password, userExist.password)
                 if ((userExist.email === email) && isMatch) {
-                    const token = jwt.sign({id: userExist._id}, process.env.JWT_SECRET_KEY, {expiresIn: '5d'})
+                    const token = jwt.sign({id: userExist._id} , process.env.JWT_SECRET_KEY, {expiresIn: '5d'})
                     res.status(200).json({ msg: 'You have logged in', token: token })
                 }
                 else {
@@ -109,9 +109,9 @@ const changePassword = async (req, res) => {
 }
 const getStudent = async (req, res) => {
     try {
-        const studentData = req.student
+        const studentData = req.user
         console.log(studentData)
-        return res.status(200).json({msg : studentData})
+        return res.status(200).json(studentData)
 
     }
     catch (error) {

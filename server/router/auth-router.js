@@ -1,7 +1,9 @@
 const express = require('express')
-const router = express.Router()
+const verifyToken = require('../middlewares/auth-middleware'); 
 const authcontroller = require('../controllers/auth-controller')
-const authMiddleware = require('../middlewares/auth-middleware')
+const router = express.Router()
+
+
 
 // router.get('/', (req, res) => {
 //     res.status(200).send('We are using router')
@@ -15,6 +17,6 @@ router.post('/login', (authcontroller.login))
 
 router.post('/changepassword', (authcontroller.changePassword))
 
-router.get('/student', (authMiddleware, authcontroller.getStudent))
+router.get('/student', verifyToken, authcontroller.getStudent)
 
 module.exports = router
